@@ -1,383 +1,325 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>wuming1679a's ToDoList</title>
+  <title>wuming1679a's ToDo</title>
   <link rel="icon" href="https://ooo.0x0.ooo/2024/07/25/ORSnVS.png" type="image/x-icon">
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-size: 16px;
-      background: #F0F2F5;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .header {
-      width: 100%;
-      height: 60px;
-      background: #34495e;
-      color: #ecf0f1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .header-content {
-      display: flex;
-      align-items: center;
-    }
-
-    .label {
-      font-size: 24px;
-      cursor: pointer;
-      margin-right: 20px;
-    }
-
-    .header-input {
-      width: 200px;
-      height: 30px;
-      padding-left: 10px;
-      border-radius: 3px;
-      border: none;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-      margin-right: 10px;
-    }
-
-    .header-select {
-      width: 120px;
-      height: 30px;
-      padding-left: 10px;
-      border-radius: 3px;
-      border: none;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    }
-
-    .header-input:focus,
-    .header-select:focus {
-      outline: none;
-    }
-
+      body {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    background: #F0F2F5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .header {
+    width: 100%;
+    height: 60px;
+    background: #34495e;
+    color: #ecf0f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  .header-content {
+    display: flex;
+    align-items: center;
+  }
+  .label {
+    font-size: 24px;
+    cursor: pointer;
+    margin-right: 20px;
+  }
+  .header-input {
+    width: 200px;
+    height: 30px;
+    padding-left: 10px;
+    border-radius: 3px;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    margin-right: 10px;
+  }
+  .header-select {
+    width: 120px;
+    height: 30px;
+    padding-left: 10px;
+    border-radius: 3px;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  }
+  .header-input:focus, .header-select:focus {
+    outline: none;
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+  }
+  .title-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .title {
+    margin: 0;
+    color: #34495e;
+    font-size: 24px;
+  }
+  .count-badge {
+    display: inline-block;
+    padding: 0 10px;
+    height: 24px;
+    border-radius: 20px;
+    background: #ecf0f1;
+    line-height: 24px;
+    text-align: center;
+    color: #34495e;
+    font-size: 14px;
+    margin-left: 10px;
+  }
+  .task-list,
+  .done-list {
+    padding: 0;
+    list-style: none;
+    width: 100%;
+  }
+  .task-item input[type="checkbox"] {
+    position: absolute;
+    top: 16px;
+    left: 10px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+  .task-text {
+    margin: 0;
+    user-select: none;
+    margin-left: 70px;
+    line-height: 25px;
+    cursor: pointer;
+  }
+  .task-detail-container {
+    display: flex;
+    align-items: center;
+    margin-left: -45px;
+    margin-top: 0px;
+  }
+  .detail-btn {
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #bdc3c7;
+    color: #34495e;
+    border: none;
+    border-radius: 4px;
+    margin-right: 10px;
+    margin-top: 10px;
+  }
+  .due-date {
+    color: #7f8c8d;
+    font-size: 14px;
+    cursor: pointer;
+    margin-right: -220px;
+  }
+  .task-detail {
+    color: #7f8c8d;
+    font-size: 14px;
+    display: none; /* 默认隐藏详情 */
+    margin-top: -60px; /* 与按钮之间留出一些空间 */
+    padding-left: 250px; /* 与任务文本对齐 */
+  }
+  .task-item {
+    position: relative;
+    padding: 10px 50px;
+    line-height: 1.5;
+    background: #ecf0f1;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    border-left: 5px solid;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    cursor: move;
+    min-height: 60px; /* 确保任务项有足够的高度 */
+  }
+  .done-item {
+    border-left: 5px solid #7f8c8d;
+    opacity: 0.7;
+    cursor: move;
+  }
+  .delete-btn {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #e74c3c;
+    text-align: center;
+    color: #FFF;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 24px;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M3 6h18v2H3zm1 3h16l-1.5 14h-13L4 9zm5.5-6h5l1.5 3h-8z'/%3E%3C/svg%3E");
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: transform 0.3s ease;
+  }
+  .delete-btn:hover {
+    transform: scale(1.2);
+  }
+  .footer {
+    color: #7f8c8d;
+    font-size: 14px;
+    text-align: center;
+    padding: 15px;
+    background: #ecf0f1;
+    border-top: 1px solid #bdc3c7;
+    width: 100%;
+  }
+  .footer a {
+    color: #2980b9;
+    text-decoration: none;
+  }
+  .footer a:hover {
+    text-decoration: underline;
+  }
+  @media screen and (max-device-width: 620px) {
     .content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      max-width: 600px;
-      padding: 20px;
+      width: 96%;
+      padding: 0 2%;
     }
-
-    .title-container {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .title {
-      margin: 0;
-      color: #34495e;
-      font-size: 24px;
-    }
-
-    .count-badge {
-      display: inline-block;
-      padding: 0 10px;
-      height: 24px;
-      border-radius: 20px;
-      background: #ecf0f1;
-      line-height: 24px;
-      text-align: center;
-      color: #34495e;
-      font-size: 14px;
-      margin-left: 10px;
-    }
-
-    .task-list,
-    .done-list {
-      padding: 0;
-      list-style: none;
-      width: 100%;
-    }
-
-    .task-item input[type="checkbox"] {
-      position: absolute;
-      top: 16px;
-      left: 10px;
-      width: 20px;
-      height: 20px;
-      cursor: pointer;
-    }
-
-    .task-text {
-      margin: 0;
-      user-select: none;
-      margin-left: 70px;
-      line-height: 25px;
-      cursor: pointer;
-    }
-
-    .task-detail-container {
-      display: flex;
-      align-items: center;
-      margin-left: -45px;
-      margin-top: 0px;
-    }
-
-    .due-date {
-      color: #7f8c8d;
-      font-size: 14px;
-      cursor: pointer;
-      margin-right: -220px;
-    }
-
-    .task-detail {
-      color: #7f8c8d;
-      font-size: 14px;
-      margin-top: -25px;
-      /* 与按钮之间留出一些空间 */
-      padding-left: 275px;
-      /* 与任务文本对齐 */
-    }
-
-    .task-item {
-      position: relative;
-      padding: 10px 50px;
-      line-height: 1.5;
-      background: #ecf0f1;
-      margin-bottom: 10px;
-      border-radius: 3px;
-      border-left: 5px solid;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-      cursor: move;
-      min-height: 60px;
-      /* 确保任务项有足够的高度 */
-    }
-
-    .done-item {
-      border-left: 5px solid #7f8c8d;
-      opacity: 0.7;
-      cursor: move;
-    }
-
-    .delete-btn {
-      position: absolute;
-      top: 50%;
-      right: 15px;
-      transform: translateY(-50%);
-      display: inline-block;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background-color: #e74c3c;
-      text-align: center;
-      color: #FFF;
-      font-weight: bold;
-      font-size: 18px;
-      line-height: 24px;
-      cursor: pointer;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M3 6h18v2H3zm1 3h16l-1.5 14h-13L4 9zm5.5-6h5l1.5 3h-8z'/%3E%3C/svg%3E");
-      background-size: 50%;
-      background-repeat: no-repeat;
-      background-position: center;
-      transition: transform 0.3s ease;
-    }
-
-    .delete-btn:hover {
-      transform: scale(1.2);
-    }
-
-    .footer {
-      color: #7f8c8d;
-      font-size: 14px;
-      text-align: center;
-      padding: 15px;
-      background: #ecf0f1;
-      border-top: 1px solid #bdc3c7;
-      width: 100%;
-    }
-
-    .footer a {
-      color: #2980b9;
-      text-decoration: none;
-    }
-
-    .footer a:hover {
-      text-decoration: underline;
-    }
-
-    @media screen and (max-device-width: 620px) {
-      .content {
-        width: 96%;
-        padding: 0 2%;
-      }
-    }
-
-    /* Modal styles */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.4);
-    }
-
-    .modal-content {
-      background-color: #fefefe;
-      margin: 15% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      border-radius: 8px;
-      width: 80%;
-      max-width: 500px;
-    }
-
-    .close-btn {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .close-btn:hover,
-    .close-btn:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .task-detail-textarea {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      margin-bottom: 10px;
-    }
-
-    .save-btn {
-      background-color: #27ae60;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .save-btn:hover {
-      background-color: #2ecc71;
-    }
-
-    /* 优化编辑时的文本框 */
-    .task-edit-input {
-      width: calc(100% - 45px);
-      padding: 5px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      margin-left: 45px;
-      margin-top: 5px;
-      display: block;
-    }
-
-    /* 学科颜色 */
-    .math {
-      border-left-color: #00CC00;
-    }
-
-    .chinese {
-      border-left-color: #00FFCC;
-    }
-
-    .english {
-      border-left-color: #00FFFF;
-    }
-
-    .physics {
-      border-left-color: #9b59b6;
-    }
-
-    .chemistry {
-      border-left-color: #FFFF00;
-    }
-
-    .history {
-      border-left-color: #FF0000;
-    }
-
-    .politics {
-      border-left-color: #FF0000;
-    }
-
-    .other {
-      border-left-color: black;
-    }
-
-    /* Due Date Modal styles */
-    #dueDateModal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.4);
-    }
-
-    #dueDateModal .modal-content {
-      background-color: #fefefe;
-      margin: 15% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      border-radius: 8px;
-      width: 80%;
-      max-width: 500px;
-    }
-
-    #dueDateModal .close-btn {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    #dueDateModal .close-btn:hover,
-    #dueDateModal .close-btn:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .due-date-input {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      margin-bottom: 10px;
-    }
+  }
+  /* Modal styles */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px;
+  }
+  .close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  .close-btn:hover,
+  .close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .task-detail-textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .save-btn {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .save-btn:hover {
+    background-color: #2ecc71;
+  }
+  /* 优化编辑时的文本框 */
+  .task-edit-input {
+    width: calc(100% - 45px);
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-left: 45px;
+    margin-top: 5px;
+    display: block;
+  }
+  /* 学科颜色 */
+  .math { border-left-color: #e74c3c; }
+  .chinese { border-left-color: #2ecc71; }
+  .english { border-left-color: #3498db; }
+  .physics { border-left-color: #9b59b6; }
+  .chemistry { border-left-color: #f39c12; }
+  .history { border-left-color: #d35400; }
+  .politics { border-left-color: #c0392b; }
+  /* Due Date Modal styles */
+  #dueDateModal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  #dueDateModal .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px;
+  }
+  #dueDateModal .close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  #dueDateModal .close-btn:hover,
+  #dueDateModal .close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .due-date-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
   </style>
 </head>
-
 <body>
   <header class="header">
     <div class="header-content">
@@ -391,7 +333,6 @@
         <option value="chemistry">化学</option>
         <option value="history">历史</option>
         <option value="politics">政治</option>
-        <option value="other">其他</option> <!-- 新增的选项 -->
       </select>
     </div>
   </header>
@@ -407,8 +348,7 @@
     </div>
     <ul id="donelist" class="task-list done-list"></ul>
   </section>
-  <footer class="footer">Copyright © 2024 <a href="https://github.com/wuming1679a">wuming1679a</a> </footer>
-
+  <footer class="footer">Copyright © 2024 <a href="https://github.com/wuming1679a">wuming1679a</a></footer>
   <!-- The Modal -->
   <div id="myModal" class="modal">
     <div class="modal-content">
@@ -418,7 +358,6 @@
       <button id="saveDetail" class="save-btn">保存</button>
     </div>
   </div>
-
   <!-- The Due Date Modal -->
   <div id="dueDateModal" class="modal">
     <div class="modal-content">
@@ -428,237 +367,232 @@
       <button id="saveDueDate" class="save-btn">保存</button>
     </div>
   </div>
-
   <script>
     var title, subject, todolist, donelist, todocount, donecount, modal, taskDetail, currentTaskIndex, currentTaskType, saveDetail, dueDateModal, dueDateInput, saveDueDate;
-
-    var list = {
-      todolist: [],
-      donelist: []
-    };
-
-    function init() {
-      title = document.querySelector("#title");
-      subject = document.querySelector("#subject");
-      todolist = document.querySelector("#todolist");
-      donelist = document.querySelector("#donelist");
-      todocount = document.querySelector("#todocount");
-      donecount = document.querySelector("#donecount");
-
-      document.addEventListener("keyup", keyHandler);
-      todolist.addEventListener("change", changeHandler);
-      todolist.addEventListener("click", clickHandler);
-      todolist.addEventListener("dblclick", dblclickHandler);
-      donelist.addEventListener("change", changeHandler);
-      donelist.addEventListener("click", clickHandler);
-
-      modal = document.getElementById("myModal");
-      taskDetail = document.getElementById("taskDetail");
-      saveDetail = document.getElementById("saveDetail");
-
-      dueDateModal = document.getElementById("dueDateModal");
-      dueDateInput = document.getElementById("dueDateInput");
-      saveDueDate = document.getElementById("saveDueDate");
-
-      var span = document.getElementsByClassName("close-btn")[0];
-      var dueDateSpan = document.getElementsByClassName("close-btn")[1];
-
-      span.onclick = function () {
+  var list = {
+    todolist: [],
+    donelist: []
+  };
+  function init() {
+    title = document.querySelector("#title");
+    subject = document.querySelector("#subject");
+    todolist = document.querySelector("#todolist");
+    donelist = document.querySelector("#donelist");
+    todocount = document.querySelector("#todocount");
+    donecount = document.querySelector("#donecount");
+    document.addEventListener("keyup", keyHandler);
+    todolist.addEventListener("change", changeHandler);
+    todolist.addEventListener("click", clickHandler);
+    todolist.addEventListener("dblclick", dblclickHandler);
+    donelist.addEventListener("change", changeHandler);
+    donelist.addEventListener("click", clickHandler);
+    modal = document.getElementById("myModal");
+    taskDetail = document.getElementById("taskDetail");
+    saveDetail = document.getElementById("saveDetail");
+    dueDateModal = document.getElementById("dueDateModal");
+    dueDateInput = document.getElementById("dueDateInput");
+    saveDueDate = document.getElementById("saveDueDate");
+    var span = document.getElementsByClassName("close-btn")[0];
+    var dueDateSpan = document.getElementsByClassName("close-btn")[1];
+    span.onclick = function () {
+      modal.style.display = "none";
+    }
+    dueDateSpan.onclick = function () {
+      dueDateModal.style.display = "none";
+    }
+    window.onclick = function (event) {
+      if (event.target === modal) {
         modal.style.display = "none";
-      }
-
-      dueDateSpan.onclick = function () {
+      } else if (event.target === dueDateModal) {
         dueDateModal.style.display = "none";
       }
-
-      window.onclick = function (event) {
-        if (event.target === modal) {
-          modal.style.display = "none";
-        } else if (event.target === dueDateModal) {
-          dueDateModal.style.display = "none";
-        }
-      }
-
-      saveDetail.onclick = function () {
-        saveTaskDetail();
-        modal.style.display = "none";
-      }
-
-      saveDueDate.onclick = function () {
-        saveDueDateDetail();
-        dueDateModal.style.display = "none";
-      }
-
-      if (localStorage.list) {
-        list = JSON.parse(localStorage.list);
-        render();
-      }
     }
-
-    function keyHandler(e) {
-      if (e.keyCode !== 13 || title.value.trim().length === 0) return;
-      list.todolist.push({ title: title.value, detail: "", subject: subject.value, dueDate: new Date().toISOString().slice(0, 16) });
-      title.value = "";
+    saveDetail.onclick = function () {
+      saveTaskDetail();
+      modal.style.display = "none";
+    }
+    saveDueDate.onclick = function () {
+      saveDueDateDetail();
+      dueDateModal.style.display = "none";
+    }
+    if (localStorage.list) {
+      list = JSON.parse(localStorage.list);
       render();
     }
-
-    function changeHandler(e) {
-      if (e.target.type !== "checkbox") return;
-      switchList(e.target, e.target.checked);
-    }
-
-    function dblclickHandler(e) {
-      if (e.target.className === "task-text") {
-        editTaskTitle(e.target);
-      } else if (e.target.className === "due-date") {
-        editDueDate(e.target);
-      } else if (e.target.className !== "") {
-        currentTaskIndex = Array.from(todolist.children).indexOf(e.target.closest("li"));
-        currentTaskType = currentTaskIndex === -1 ? "donelist" : "todolist";
-        if (currentTaskIndex === -1) currentTaskIndex = Array.from(donelist.children).indexOf(e.target.closest("li"));
-        taskDetail.value = list[currentTaskType][currentTaskIndex].detail;
-        modal.style.display = "block";
-      }
-    }
-
-    function clickHandler(e) {
-      if (e.target.className === "delete-btn") {
-        deleteTask(e.target.closest("li"));
-      }
-    }
-
-    function editTaskTitle(target) {
-      var li = target.closest("li");
-      var input = document.createElement("input");
-      input.type = "text";
-      input.value = target.textContent;
-      input.className = "task-edit-input";
-      input.addEventListener("blur", function () {
-        saveEditedTitle(input, li);
-      });
-      input.addEventListener("keydown", function (e) {
-        if (e.keyCode === 13) {
-          saveEditedTitle(input, li);
-        }
-      });
-      target.replaceWith(input);
-      input.focus();
-      input.select();
-    }
-
-    function saveEditedTitle(input, li) {
-      var task = getTask(li);
-      if (!task) return;
-      task.title = input.value.trim() || task.title;
-      render();
-    }
-
-    function switchList(target, bool, remove) {
-      var li = target.closest("li");
-      var taskIndex = getTaskIndex(li);
-      if (!taskIndex) return;
-      var task = list[taskIndex.type][taskIndex.index];
-      var arr = bool ? list.todolist : list.donelist;
-      var arr1 = bool ? list.donelist : list.todolist;
-      arr.splice(taskIndex.index, 1);
-      if (!remove) arr1.push(task);
-      render();
-    }
-
-    function saveTaskDetail() {
-      if (currentTaskIndex !== undefined && currentTaskIndex !== null) {
-        list[currentTaskType][currentTaskIndex].detail = taskDetail.value;
-        render();
-      }
-    }
-
-    function deleteTask(li) {
-      var taskIndex = getTaskIndex(li);
-      if (!taskIndex) return;
-      list[taskIndex.type].splice(taskIndex.index, 1);
-      render();
-    }
-
-    function getTaskIndex(li) {
-      var index = Array.from(todolist.children).indexOf(li);
-      if (index !== -1) return { type: "todolist", index: index };
-      index = Array.from(donelist.children).indexOf(li);
-      if (index !== -1) return { type: "donelist", index: index };
-      return null;
-    }
-
-    function getTask(li) {
-      var taskIndex = getTaskIndex(li);
-      if (!taskIndex) return null;
-      return list[taskIndex.type][taskIndex.index];
-    }
-
-    function render() {
-      localStorage.list = JSON.stringify(list);
-      todolist.innerHTML = list.todolist.reduce((value, item) => {
-        return (
-          value +
-          `<li class="task-item ${item.subject}">
-      <input type="checkbox">
-      <div class="task-title-container">
-        <p class="task-text">${item.title}</p>
-        <input type="text" class="task-edit-input" style="display:none;">
-      </div>
-      <div class="task-detail-container">
-        <p class="due-date">${calculateRemainingTime(item.dueDate)}</p>
-        <p class="task-detail">${item.detail}</p>
-      </div>
-      <a href="javascript:void(0)" class="delete-btn"></a>
-    </li>`
-        );
-      }, "");
-      donelist.innerHTML = list.donelist.reduce((value, item) => {
-        return (
-          value +
-          `<li class="task-item done-item ${item.subject}">
-      <input type="checkbox" checked>
-      <div class="task-title-container">
-        <p class="task-text">${item.title}</p>
-        <input type="text" class="task-edit-input" style="display:none;">
-      </div>
-      <div class="task-detail-container">
-        <p class="due-date">${calculateRemainingTime(item.dueDate)}</p>
-        <p class="task-detail">${item.detail}</p>
-      </div>
-      <a href="javascript:void(0)" class="delete-btn"></a>
-    </li>`
-        );
-      }, "");
-      todocount.textContent = list.todolist.length;
-      donecount.textContent = list.donelist.length;
-    }
-
-    function calculateRemainingTime(dueDate) {
-      var now = new Date();
-      var due = new Date(dueDate);
-      var diff = due - now;
-      if (diff < 0) return "已过期";
-      var days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      return `${days}天 ${hours}小时 ${minutes}分钟`;
-    }
-
-    function editDueDate(target) {
-      var li = target.closest("li");
-      currentTaskIndex = Array.from(todolist.children).indexOf(li);
+  }
+  function keyHandler(e) {
+    if (e.keyCode !== 13 || title.value.trim().length === 0) return;
+    list.todolist.push({ title: title.value, detail: "", subject: subject.value, dueDate: new Date().toISOString().slice(0, 16) });
+    title.value = "";
+    render();
+  }
+  function changeHandler(e) {
+    if (e.target.type !== "checkbox") return;
+    switchList(e.target, e.target.checked);
+  }
+  function dblclickHandler(e) {
+    if (e.target.className === "task-text") {
+      editTaskTitle(e.target);
+    } else if (e.target.className === "due-date") {
+      editDueDate(e.target);
+    } else if (e.target.className !== "") {
+      currentTaskIndex = Array.from(todolist.children).indexOf(e.target.closest("li"));
       currentTaskType = currentTaskIndex === -1 ? "donelist" : "todolist";
-      if (currentTaskIndex === -1) currentTaskIndex = Array.from(donelist.children).indexOf(li);
-      dueDateInput.value = list[currentTaskType][currentTaskIndex].dueDate;
-      dueDateModal.style.display = "block";
+      if (currentTaskIndex === -1) currentTaskIndex = Array.from(donelist.children).indexOf(e.target.closest("li"));
+      taskDetail.value = list[currentTaskType][currentTaskIndex].detail;
+      modal.style.display = "block";
     }
-
-    function saveDueDateDetail() {
-      if (currentTaskIndex !== undefined && currentTaskIndex !== null) {
-        list[currentTaskType][currentTaskIndex].dueDate = dueDateInput.value;
-        render();
+  }
+  function clickHandler(e) {
+    if (e.target.className === "delete-btn") {
+      deleteTask(e.target.closest("li"));
+    } else if (e.target.className === "detail-btn") {
+      showTaskDetail(e.target);
+    }
+  }
+  function editTaskTitle(target) {
+    var li = target.closest("li");
+    var input = document.createElement("input");
+    input.type = "text";
+    input.value = target.textContent;
+    input.className = "task-edit-input";
+    input.addEventListener("blur", function() {
+      saveEditedTitle(input, li);
+    });
+    input.addEventListener("keydown", function(e) {
+      if (e.keyCode === 13) {
+        saveEditedTitle(input, li);
       }
+    });
+    target.replaceWith(input);
+    input.focus();
+    input.select();
+  }
+  function saveEditedTitle(input, li) {
+    var task = getTask(li);
+    if (!task) return;
+    task.title = input.value.trim() || task.title;
+    render();
+  }
+  function switchList(target, bool, remove) {
+    var li = target.closest("li");
+    var taskIndex = getTaskIndex(li);
+    if (!taskIndex) return;
+    var task = list[taskIndex.type][taskIndex.index];
+    var arr = bool ? list.todolist : list.donelist;
+    var arr1 = bool ? list.donelist : list.todolist;
+    arr.splice(taskIndex.index, 1);
+    if (!remove) arr1.push(task);
+    render();
+  }
+  function saveTaskDetail() {
+    if (currentTaskIndex !== undefined && currentTaskIndex !== null) {
+      list[currentTaskType][currentTaskIndex].detail = taskDetail.value;
+      render();
     }
-
-    init();
+  }
+  function toggleDetail(target) {
+    var detailDiv = target.nextElementSibling;
+    if (detailDiv && detailDiv.classList.contains("task-detail")) {
+      detailDiv.style.display = detailDiv.style.display === "none" ? "block" : "none";
+    }
+  }
+  function deleteTask(li) {
+    var taskIndex = getTaskIndex(li);
+    if (!taskIndex) return;
+    list[taskIndex.type].splice(taskIndex.index, 1);
+    render();
+  }
+  function getTaskIndex(li) {
+    var index = Array.from(todolist.children).indexOf(li);
+    if (index !== -1) return { type: "todolist", index: index };
+    index = Array.from(donelist.children).indexOf(li);
+    if (index !== -1) return { type: "donelist", index: index };
+    return null;
+  }
+  function getTask(li) {
+    var taskIndex = getTaskIndex(li);
+    if (!taskIndex) return null;
+    return list[taskIndex.type][taskIndex.index];
+  }
+  function render() {
+    localStorage.list = JSON.stringify(list);
+    todolist.innerHTML = list.todolist.reduce((value, item) => {
+      return (
+        value +
+        `<li class="task-item ${item.subject}">
+          <input type="checkbox">
+          <div class="task-title-container">
+            <p class="task-text">${item.title}</p>
+            <input type="text" class="task-edit-input" style="display:none;">
+          </div>
+          <div class="task-detail-container">
+            <button class="detail-btn">显示任务详细</button>
+            <p class="due-date">${calculateRemainingTime(item.dueDate)}</p>
+            <p class="task-detail" style="display:none;">${item.detail}</p>
+          </div>
+          <a href="javascript:void(0)" class="delete-btn"></a>
+        </li>`
+      );
+    }, "");
+    donelist.innerHTML = list.donelist.reduce((value, item) => {
+      return (
+        value +
+        `<li class="task-item done-item ${item.subject}">
+          <input type="checkbox" checked>
+          <div class="task-title-container">
+            <p class="task-text">${item.title}</p>
+            <input type="text" class="task-edit-input" style="display:none;">
+          </div>
+          <div class="task-detail-container">
+            <button class="detail-btn">显示任务详细</button>
+            <p class="due-date">${calculateRemainingTime(item.dueDate)}</p>
+            <p class="task-detail" style="display:none;">${item.detail}</p>
+          </div>
+          <a href="javascript:void(0)" class="delete-btn"></a>
+        </li>`
+      );
+    }, "");
+    todocount.textContent = list.todolist.length;
+    donecount.textContent = list.donelist.length;
+  }
+  function calculateRemainingTime(dueDate) {
+    var now = new Date();
+    var due = new Date(dueDate);
+    var diff = due - now;
+    if (diff < 0) return "已过期";
+    var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    return `${days}天 ${hours}小时 ${minutes}分钟`;
+  }
+  function editDueDate(target) {
+    var li = target.closest("li");
+    currentTaskIndex = Array.from(todolist.children).indexOf(li);
+    currentTaskType = currentTaskIndex === -1 ? "donelist" : "todolist";
+    if (currentTaskIndex === -1) currentTaskIndex = Array.from(donelist.children).indexOf(li);
+    dueDateInput.value = list[currentTaskType][currentTaskIndex].dueDate;
+    dueDateModal.style.display = "block";
+  }
+  function saveDueDateDetail() {
+    if (currentTaskIndex !== undefined && currentTaskIndex !== null) {
+      list[currentTaskType][currentTaskIndex].dueDate = dueDateInput.value;
+      render();
+    }
+  }
+  function showTaskDetail(target) {
+    var li = target.closest("li");
+    var detailElement = li.querySelector(".task-detail");
+    
+    if (detailElement.style.display === "none") {
+      detailElement.style.display = "block";
+      target.textContent = "隐藏任务详细";
+    } else {
+      detailElement.style.display = "none";
+      target.textContent = "显示任务详细";
+    }
+  }
+  init();
   </script>
+</body>
+</html>
